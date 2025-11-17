@@ -4,7 +4,7 @@ Integrantes:
 
 Breyner Valenciano 
 
-Andrés 
+Andrés Gonzáles
 
 Diego Caldas 
 
