@@ -1,0 +1,184 @@
+// Programa de robot sumo
+
+// ----------------- ATRIBUTOS -----------
+
+#include <SoftwareSerial.h> // Incluimos la librería SoftwareSerial 
+
+SoftwareSerial BT(10,11); // Definimos los pines RX y TX del Arduino
+
+conectados al Bluetooth
+
+int motor1A = 2; // Motor 1 Adelante
+
+int motor1R = 3; // Motor 1 Reversa
+
+int motor2A = 4; // Motor 2 Adelante
+
+int motor2R = 5; // Motor 2 Reversa
+
+void setup(){
+
+ // CONFIGURAMOS EL MOTOR 1 COMO SALIDA (OUTPUT)
+
+ pinMode(motor1A, OUTPUT);
+
+ pinMode(motor1R, OUTPUT);
+
+ // CONFIGURAMOS EL MOTOR 2 COMO SALIDA (OUTPUT)
+
+ pinMode(motor2A, OUTPUT);
+
+ pinMode(motor2R, OUTPUT);
+
+ // CONFIGURAMOS LA COMUNICACIÓN ENTRE EL PC Y ARDUINO
+
+ Serial.begin(9600);
+
+ // INICIAMOS COMUNICACIÓN CON EL BLUETOOTH
+
+ BT.begin(9600);
+
+}
+
+void loop(){
+
+ if(BT.available() > 0){ // Revisamos si tenemos mensajes del control,
+
+en este ejemplo, el mismo control serial
+
+ // Vamos a guardar el mensaje como una sola letra
+
+ char msg = BT.read();
+
+ 
+
+ // Verificamos el mensaje y tomamos acción
+
+ if( msg == 'F' ){
+
+ adelante();}
+
+ if( msg == 'B' ){
+
+ reversa();
+
+ }
+
+ if( msg == 'S' ){
+
+ parar();
+
+ }
+
+ if( msg == 'R' ){
+
+ izquierda();
+
+ }
+
+ if( msg == 'L' ){
+
+ derecha();
+
+ }
+
+ 
+
+ }
+
+}
+
+// --------------- MÉTODOS PROPIOS ---------------
+
+void adelante(){
+
+ // Motor 1A encendido, motor 1R apagado
+
+ digitalWrite(motor1A, HIGH);
+
+ digitalWrite(motor1R, LOW);
+
+ // Motor 2A encendido, motor 2R apagado
+
+ digitalWrite(motor2A, HIGH);
+
+ digitalWrite(motor2R, LOW);
+
+ Serial.println("Sumo avanza...");
+
+}
+
+void reversa(){
+
+ // Motor 1A apagado, motor 1R encenddido
+
+ digitalWrite(motor1A, LOW);
+
+ digitalWrite(motor1R, HIGH);
+
+ // Motor 2A apagado, motor 2R encenddido
+
+ digitalWrite(motor2A, LOW);
+
+ digitalWrite(motor2R, HIGH);
+
+ Serial.println("Sumo retrocede...");
+
+}
+
+void parar(){
+
+ // Motor 1A apagado, motor 1R apagado
+digitalWrite(motor1A, HIGH);
+
+ digitalWrite(motor1R, HIGH);
+
+ // Motor 1A apagado, motor 1R apagado
+
+ digitalWrite(motor2A, HIGH);
+
+ digitalWrite(motor2R, HIGH);
+
+ Serial.println("Sumo detenido...");
+
+}
+
+// ****************** Motor 1 ----> Izq
+
+// ****************** Motor 2 ----> Der
+
+void derecha(){
+
+ // Activamos Motor 1 adelante
+
+ digitalWrite(motor1A, HIGH);
+
+ digitalWrite(motor1R, LOW);
+
+ // Activamos motor 2 reversa
+
+ digitalWrite(motor2A, LOW);
+
+ digitalWrite(motor2R, HIGH);
+
+ Serial.println("Giro a la derecha...");
+
+}
+
+void izquierda(){
+
+ // Activamos Motor 2 adelante
+
+ digitalWrite(motor2A, HIGH);
+
+ digitalWrite(motor2R, LOW);
+
+ // Activamos motor 1 reversa
+
+ digitalWrite(motor1A, LOW);
+
+ digitalWrite(motor1R, HIGH);
+
+ Serial.println("Giro a la izquierda...");
+
+}
